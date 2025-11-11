@@ -109,18 +109,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         decoration: InputDecoration(
                           hintText: 'Your number',
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 15,
+                          contentPadding: EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 50,
                           ),
+                          floatingLabelBehavior:
+                              FloatingLabelBehavior.never, // важная строка
                         ),
                         initialCountryCode: 'RU',
                         showDropdownIcon: false, // убираем стрелку
-                        flagsButtonPadding: EdgeInsets.only(left: 20),
+                        flagsButtonPadding: EdgeInsets.only(left: 20, top: 14),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
+                        textAlignVertical: TextAlignVertical
+                            .center, // центрирование по вертикали
                         onChanged: (phone) {
                           print(phone.completeNumber);
                         },

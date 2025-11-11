@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Страницы приложения
 import 'screens/cart_screen.dart';
@@ -15,6 +16,11 @@ import 'theme/colors.dart';
 import 'theme/text_styles.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Полноэкранный режим
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
   runApp(ShopApp());
 }
 
