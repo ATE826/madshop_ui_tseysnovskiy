@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'login_screen.dart';
 
@@ -21,21 +22,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // Заголовок
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(left: 30.0, top: 100.0),
+                padding: EdgeInsets.only(left: 30.0, top: 80.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Create\nAccount',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 60,
+                      fontSize: 55,
                       fontFamily: 'Raleway',
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 180),
+              SizedBox(height: 130),
 
               // Основная форма
               Container(
@@ -45,13 +46,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     // Email
                     Container(
+                      height: 52,
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 248, 248, 248),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: TextField(
                         decoration: InputDecoration(
-                          labelText: 'Email',
+                          hintText: 'Email',
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 20,
@@ -64,6 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     // Password
                     Container(
+                      height: 52,
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 248, 248, 248),
                         borderRadius: BorderRadius.circular(100),
@@ -71,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: TextField(
                         obscureText: !_isPasswordVisible,
                         decoration: InputDecoration(
-                          labelText: 'Password',
+                          hintText: 'Password',
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 20,
@@ -97,13 +100,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     // Phone number
                     Container(
+                      height: 52,
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 248, 248, 248),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: IntlPhoneField(
                         decoration: InputDecoration(
-                          labelText: 'Your number',
+                          hintText: 'Your number',
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 20,
@@ -111,10 +115,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         initialCountryCode: 'RU',
+                        showDropdownIcon: false, // убираем стрелку
+                        flagsButtonPadding: EdgeInsets.only(left: 20),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         onChanged: (phone) {
                           print(phone.completeNumber);
                         },
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 14),
                       ),
                     ),
                   ],
