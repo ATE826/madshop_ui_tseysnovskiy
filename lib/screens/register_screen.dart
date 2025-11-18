@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'login_screen.dart';
+import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -10,15 +12,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  bool _isPasswordVisible = false; // состояние видимости пароля
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          // ------------------ SVG на заднем фоне ------------------
           Positioned(
             top: 50,
             left: 290,
@@ -37,13 +38,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               height: 250,
             ),
           ),
-
-          // ------------------ Основной контент ------------------
           SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Заголовок
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.only(left: 30.0, top: 80.0),
@@ -51,28 +49,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Create\nAccount',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 55,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: AppTextStyles.heading1,
                       ),
                     ),
                   ),
                   SizedBox(height: 130),
-
-                  // Основная форма
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: Column(
                       children: [
-                        // Email
                         Container(
                           height: 52,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 248, 248, 248),
+                            color: AppColors.greyLight,
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: TextField(
@@ -87,12 +77,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         SizedBox(height: 15),
-
-                        // Password
                         Container(
                           height: 52,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 248, 248, 248),
+                            color: AppColors.greyLight,
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: TextField(
@@ -109,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   _isPasswordVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: Colors.grey,
+                                  color: AppColors.greyText,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -121,12 +109,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         SizedBox(height: 15),
-
-                        // Phone number
                         Container(
                           height: 52,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 248, 248, 248),
+                            color: AppColors.greyLight,
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: IntlPhoneField(
@@ -153,17 +139,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               FilteringTextInputFormatter.digitsOnly,
                             ],
                             textAlignVertical: TextAlignVertical.center,
-                            onChanged: (phone) {
-                              print(phone.completeNumber);
-                            },
+                            onChanged: (phone) => print(phone.completeNumber),
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
                       ],
                     ),
                   ),
-
-                  // Кнопка Done
                   Padding(
                     padding: EdgeInsets.only(
                       top: 60.0,
@@ -176,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 61,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 0, 76, 255),
+                          backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -189,15 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           );
                         },
-                        child: Text(
-                          'Done',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontFamily: 'Nunito Sans',
-                          ),
-                        ),
+                        child: Text('Done', style: AppTextStyles.button),
                       ),
                     ),
                   ),

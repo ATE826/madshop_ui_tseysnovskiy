@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'product_screen.dart';
 import 'login_screen.dart';
+import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class PasswordScreen extends StatefulWidget {
   @override
@@ -14,12 +16,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset:
-          true, // автоматически сжимает контент при клавиатуре
+      backgroundColor: AppColors.background,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // ------------------ SVG на заднем фоне ------------------
           Positioned(
             top: 0,
             left: 0,
@@ -48,47 +48,26 @@ class _PasswordScreenState extends State<PasswordScreen> {
             ),
           ),
 
-          // ------------------ Основной контент с прокруткой ------------------
           SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(top: 280),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Заголовок
                   Column(
                     children: [
-                      Text(
-                        'Hello!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                      Text('Hello!', style: AppTextStyles.heading2),
                       SizedBox(height: 20),
-                      Text(
-                        'Type your password',
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 18,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
+                      Text('Type your password', style: AppTextStyles.subtitle),
                     ],
                   ),
-
                   SizedBox(height: 105),
-
-                  // Поле пароля
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: Container(
                       height: 52,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 248, 248, 248),
+                        color: AppColors.greyLight,
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: TextField(
@@ -105,22 +84,19 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               _isPasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Colors.grey,
+                              color: AppColors.greyText,
                             ),
                             onPressed: () {
-                              setState(() {
-                                _isPasswordVisible = !_isPasswordVisible;
-                              });
+                              setState(
+                                () => _isPasswordVisible = !_isPasswordVisible,
+                              );
                             },
                           ),
                         ),
                       ),
                     ),
                   ),
-
                   SizedBox(height: 70),
-
-                  // Кнопка Done
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: SizedBox(
@@ -128,7 +104,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       height: 61,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 0, 76, 255),
+                          backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -141,20 +117,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                             ),
                           );
                         },
-                        child: Text(
-                          'Done',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontFamily: 'Nunito Sans',
-                          ),
-                        ),
+                        child: Text('Done', style: AppTextStyles.button),
                       ),
                     ),
                   ),
-
-                  // Cancel
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(
@@ -162,18 +128,9 @@ class _PasswordScreenState extends State<PasswordScreen> {
                         MaterialPageRoute(builder: (context) => LoginScreen()),
                       );
                     },
-                    child: Text(
-                      'Cancel',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Raleway',
-                      ),
-                    ),
+                    child: Text('Cancel', style: AppTextStyles.small),
                   ),
-
-                  SizedBox(height: 75), // нижний отступ
+                  SizedBox(height: 75),
                 ],
               ),
             ),

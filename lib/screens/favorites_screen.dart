@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'product_screen.dart';
 import 'cart_screen.dart';
+import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class FavoritesScreen extends StatelessWidget {
   final List<Map<String, String>> products = [
@@ -39,28 +41,14 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            Text(
-              'Favorites',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 30,
-              ),
-            ),
-          ],
-        ),
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        title: Text('Favorites', style: AppTextStyles.heading2),
       ),
-      // Оборачиваем body в GestureDetector, чтобы ловить клики вне поля
       body: GestureDetector(
-        onTap: () {
-          // Снимаем фокус с TextField, клавиатура закрывается
-          FocusScope.of(context).unfocus();
-        },
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
           child: GridView.builder(
@@ -77,7 +65,7 @@ class FavoritesScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.background,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -86,7 +74,7 @@ class FavoritesScreen extends StatelessWidget {
                       Container(
                         height: 180,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.background,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
@@ -108,7 +96,6 @@ class FavoritesScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-
                             Positioned(
                               top: 8,
                               left: 8,
@@ -116,7 +103,7 @@ class FavoritesScreen extends StatelessWidget {
                                 padding: EdgeInsets.all(4),
                                 child: Icon(
                                   Icons.favorite_border,
-                                  color: Colors.red,
+                                  color: AppColors.red,
                                   size: 28,
                                 ),
                               ),
@@ -136,22 +123,14 @@ class FavoritesScreen extends StatelessWidget {
                             children: [
                               Text(
                                 product['name']!,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                textAlign: TextAlign.start,
+                                style: AppTextStyles.productName,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 product['price']!,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.start,
+                                style: AppTextStyles.productPrice,
                               ),
                             ],
                           ),
@@ -166,33 +145,28 @@ class FavoritesScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1, // текущая вкладка — Favorites
+        currentIndex: 1,
         onTap: (index) {
           if (index == 0) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ProductScreen()),
+              MaterialPageRoute(builder: (_) => ProductScreen()),
             );
           } else if (index == 1) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => FavoritesScreen()),
+              MaterialPageRoute(builder: (_) => FavoritesScreen()),
             );
           } else if (index == 2) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => CartScreen()),
+              MaterialPageRoute(builder: (_) => CartScreen()),
             );
           }
         },
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black, // выбранная иконка чёрная
-        unselectedItemColor: Color.fromARGB(
-          255,
-          0,
-          76,
-          255,
-        ), // остальные иконки синие
+        backgroundColor: AppColors.background,
+        selectedItemColor: AppColors.black,
+        unselectedItemColor: AppColors.primary,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: [
@@ -202,10 +176,7 @@ class FavoritesScreen extends StatelessWidget {
               child: Icon(Icons.favorite_outline),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(
-                    color: Colors.black, // подчёркивание только для выбранной
-                    width: 3,
-                  ),
+                  bottom: BorderSide(color: AppColors.black, width: 3),
                 ),
               ),
             ),

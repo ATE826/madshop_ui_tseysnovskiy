@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'favorites_screen.dart';
 import 'cart_screen.dart';
+import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
+  @override
+  _ProductScreenState createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
   final List<Map<String, String>> products = [
     {
       'name': 'Lorem ipsum dolor sit amet consectetur',
@@ -36,41 +43,42 @@ class ProductScreen extends StatelessWidget {
     },
   ];
 
+  // Список, чтобы хранить состояние сердечка (true = красное, false = белое)
+  List<bool> favorites = [];
+
+  @override
+  void initState() {
+    super.initState();
+    favorites = List.filled(
+      products.length,
+      false,
+    ); // изначально все не в избранном
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
+        elevation: 0,
         title: Row(
           children: [
-            Text(
-              'Shop',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 30,
-              ),
-            ),
+            Text('Shop', style: AppTextStyles.heading2),
             SizedBox(width: 12),
             Expanded(
               child: Container(
                 height: 36,
                 decoration: BoxDecoration(
-                  color: Color(0xFFE5EBFC),
+                  color: AppColors.searchField,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextField(
-                  style: TextStyle(color: Color.fromARGB(255, 0, 76, 255)),
+                  style: TextStyle(color: AppColors.primary),
                   decoration: InputDecoration(
                     hintText: 'Search...',
-                    hintStyle: TextStyle(
-                      color: Color.fromARGB(255, 0, 76, 255),
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color.fromARGB(255, 0, 76, 255),
-                    ),
+                    hintStyle: TextStyle(color: AppColors.primary),
+                    prefixIcon: Icon(Icons.search, color: AppColors.primary),
                     border: InputBorder.none,
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 8),
@@ -81,12 +89,8 @@ class ProductScreen extends StatelessWidget {
           ],
         ),
       ),
-      // Оборачиваем body в GestureDetector, чтобы ловить клики вне поля
       body: GestureDetector(
-        onTap: () {
-          // Снимаем фокус с TextField, клавиатура закрывается
-          FocusScope.of(context).unfocus();
-        },
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
           child: GridView.builder(
@@ -103,7 +107,7 @@ class ProductScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.background,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -112,7 +116,7 @@ class ProductScreen extends StatelessWidget {
                       Container(
                         height: 180,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.background,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
@@ -134,16 +138,24 @@ class ProductScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-
                             Positioned(
                               top: 8,
                               left: 8,
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                  size: 28,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    favorites[index] = !favorites[index];
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(4),
+                                  child: Icon(
+                                    Icons.favorite_border,
+                                    color: favorites[index]
+                                        ? AppColors.red
+                                        : Colors.white,
+                                    size: 28,
+                                  ),
                                 ),
                               ),
                             ),
@@ -154,7 +166,7 @@ class ProductScreen extends StatelessWidget {
                                 padding: EdgeInsets.all(4),
                                 child: Icon(
                                   Icons.shopping_bag_outlined,
-                                  color: Colors.white,
+                                  color: AppColors.background,
                                   size: 28,
                                 ),
                               ),
@@ -174,22 +186,14 @@ class ProductScreen extends StatelessWidget {
                             children: [
                               Text(
                                 product['name']!,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                textAlign: TextAlign.start,
+                                style: AppTextStyles.productName,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 4),
                               Text(
                                 product['price']!,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.start,
+                                style: AppTextStyles.productPrice,
                               ),
                             ],
                           ),
@@ -204,7 +208,7 @@ class ProductScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // текущая вкладка
+        currentIndex: 0,
         onTap: (index) {
           if (index == 0) {
             Navigator.pushReplacement(
@@ -223,14 +227,9 @@ class ProductScreen extends StatelessWidget {
             );
           }
         },
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black, // выбранная иконка чёрная
-        unselectedItemColor: Color.fromARGB(
-          255,
-          0,
-          76,
-          255,
-        ), // остальные иконки синие
+        backgroundColor: AppColors.background,
+        selectedItemColor: AppColors.black,
+        unselectedItemColor: AppColors.primary,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: [
@@ -239,10 +238,7 @@ class ProductScreen extends StatelessWidget {
               child: Icon(Icons.home_outlined),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(
-                    color: Colors.black, // подчёркивание только для выбранной
-                    width: 3,
-                  ),
+                  bottom: BorderSide(color: AppColors.black, width: 3),
                 ),
               ),
             ),
@@ -253,10 +249,7 @@ class ProductScreen extends StatelessWidget {
               child: Icon(Icons.favorite_outline),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(
-                    color: Colors.transparent, // скрыто для остальных
-                    width: 3,
-                  ),
+                  bottom: BorderSide(color: Colors.transparent, width: 3),
                 ),
               ),
             ),

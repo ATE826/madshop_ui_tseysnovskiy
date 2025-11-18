@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'register_screen.dart';
 import 'password_screen.dart';
+import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,12 +14,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset:
-          true, // автоматически сжимает контент при клавиатуре
+      backgroundColor: AppColors.background,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // ------------------ SVG на заднем фоне ------------------
           Positioned(
             top: 100,
             left: 310,
@@ -55,52 +55,33 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          // ------------------ Основной контент с прокруткой ------------------
           SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(top: 340),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // заголовок слева
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Заголовок и подзаголовок
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start, // текст слева
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 55,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        Text('Login', style: AppTextStyles.heading1),
                         SizedBox(height: 5),
                         Text(
                           'Good to see you back!',
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontSize: 18,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: AppTextStyles.subtitle,
                         ),
                       ],
                     ),
                   ),
-
                   SizedBox(height: 35),
-
-                  // Поле Email
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: Container(
                       height: 52,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 248, 248, 248),
+                        color: AppColors.greyLight,
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: TextField(
@@ -115,10 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
                   SizedBox(height: 40),
-
-                  // Кнопка Done
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: SizedBox(
@@ -126,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 61,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 0, 76, 255),
+                          backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -139,22 +117,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         },
-                        child: Text(
-                          'Done',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontFamily: 'Nunito Sans',
-                          ),
-                        ),
+                        child: Text('Done', style: AppTextStyles.button),
                       ),
                     ),
                   ),
-
                   SizedBox(height: 20),
-
-                  // Cancel по центру
                   Center(
                     child: TextButton(
                       onPressed: () {
@@ -165,18 +132,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
                       },
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Raleway',
-                        ),
-                      ),
+                      child: Text('Cancel', style: AppTextStyles.small),
                     ),
                   ),
-
                   SizedBox(height: 75),
                 ],
               ),
