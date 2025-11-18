@@ -35,10 +35,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               'assets/images/registration_page/bubble 02.svg',
               width: 250,
               height: 250,
-              // colorFilter: ColorFilter.mode(
-              //   Color.fromARGB(49, 0, 0, 0),
-              //   BlendMode.srcIn,
-              // ),
             ),
           ),
 
@@ -148,7 +144,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             initialCountryCode: 'RU',
                             showDropdownIcon: false,
-                            flagsButtonPadding: EdgeInsets.only(left: 20),
+                            flagsButtonPadding: EdgeInsets.only(
+                              left: 20,
+                              top: 14.5,
+                            ),
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,

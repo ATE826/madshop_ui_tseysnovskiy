@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 // Страницы приложения
 import 'screens/cart_screen.dart';
 import 'screens/favorites_screen.dart';
-import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/password_screen.dart';
 import 'screens/product_screen.dart';
@@ -44,10 +43,9 @@ class ShopApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/password': (context) => PasswordScreen(),
-        '/home': (context) => HomeScreen(),
-        // '/product': (context) => ProductScreen(),
-        // '/cart': (context) => CartScreen(),
-        // '/favorites': (context) => FavoritesScreen(),
+        '/product': (context) => ProductScreen(),
+        //'/cart': (context) => CartScreen(),
+        //'/favorites': (context) => FavoritesScreen(),
       },
     );
   }

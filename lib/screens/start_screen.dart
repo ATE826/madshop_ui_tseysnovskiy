@@ -33,15 +33,6 @@ class _StartScreenState extends State<StartScreen> {
               width: 330,
               height: 330,
             ),
-            // SizedBox(height: 20),
-            // Text(
-            //   'MAD Shopp',
-            //   style: TextStyle(
-            //     fontSize: 28,
-            //     fontWeight: FontWeight.bold,
-            //     color: Colors.blue, // цвет можно взять из AppColors
-            //   ),
-            // ),
           ],
         ),
       ),

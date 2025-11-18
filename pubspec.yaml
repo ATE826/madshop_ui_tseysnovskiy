@@ -32,6 +32,7 @@ flutter:
     - assets/images/
     - assets/images/icons/
     - assets/images/registration_page/
+    - assets/images/login_password_page/
 
 flutter_icons:
   android: true
