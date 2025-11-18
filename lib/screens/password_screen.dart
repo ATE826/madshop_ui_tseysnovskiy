@@ -13,6 +13,19 @@ class PasswordScreen extends StatefulWidget {
 class _PasswordScreenState extends State<PasswordScreen> {
   bool _isPasswordVisible = false;
 
+  void _navigateWithFade(Widget page) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        transitionDuration: Duration(milliseconds: 700),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +60,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
               height: 350,
             ),
           ),
-
           SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(top: 280),
@@ -87,9 +99,9 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               color: AppColors.greyText,
                             ),
                             onPressed: () {
-                              setState(
-                                () => _isPasswordVisible = !_isPasswordVisible,
-                              );
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
                             },
                           ),
                         ),
@@ -110,12 +122,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductScreen(),
-                            ),
-                          );
+                          _navigateWithFade(ProductScreen());
                         },
                         child: Text('Done', style: AppTextStyles.button),
                       ),
@@ -123,10 +130,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
+                      _navigateWithFade(LoginScreen());
                     },
                     child: Text('Cancel', style: AppTextStyles.small),
                   ),
