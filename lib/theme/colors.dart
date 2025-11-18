@@ -7,5 +7,7 @@ class AppColors {
   static const Color greyText = Color(0xFF707070);
   static const Color black = Colors.black;
   static const Color red = Colors.red;
-  static const Color searchField = Color(0xFFE5EBFC);
+  static const Color searchField = Color.fromARGB(255, 229, 235, 252);
+
+  static const Color productNumber = Color.fromARGB(255, 229, 235, 252);
 }

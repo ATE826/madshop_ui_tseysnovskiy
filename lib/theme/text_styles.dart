@@ -47,6 +47,11 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
   );
 
+  static const TextStyle productColorSize = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+  );
+
   static const TextStyle productPrice = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,

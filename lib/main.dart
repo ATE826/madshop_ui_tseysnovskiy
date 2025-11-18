@@ -10,10 +10,6 @@ import 'screens/product_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/start_screen.dart';
 
-// Стили и темы
-import 'theme/colors.dart';
-import 'theme/text_styles.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -29,14 +25,6 @@ class ShopApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MAD Shop',
-
-      // theme: ThemeData(
-      //   primaryColor: AppColors.primary,
-      //   textTheme: TextTheme(
-      //     headline1: AppTextStyles.headline,
-      //     bodyText1: AppTextStyles.body,
-      //   ),
-      // ),
       initialRoute: '/start',
       routes: {
         '/start': (context) => StartScreen(),

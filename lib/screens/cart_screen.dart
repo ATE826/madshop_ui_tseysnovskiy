@@ -1,231 +1,320 @@
 import 'package:flutter/material.dart';
-import 'favorites_screen.dart';
 import 'product_screen.dart';
+import 'favorites_screen.dart';
+import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   final List<Map<String, String>> products = [
     {
       'name': 'Lorem ipsum dolor sit amet consectetur',
+      'color_size': 'Pink, Size M',
       'price': '\$17,00',
-      'image': 'assets/images/cards/1.jpg',
+      'image': 'assets/images/cards/7.jpg',
     },
     {
       'name': 'Lorem ipsum dolor sit amet consectetur',
+      'color_size': 'Pink, Size M',
       'price': '\$17,00',
-      'image': 'assets/images/cards/2.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/3.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/4.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/5.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/6.jpg',
+      'image': 'assets/images/cards/8.jpg',
     },
   ];
+
+  List<int> quantities = [];
+
+  @override
+  void initState() {
+    super.initState();
+    quantities = List.filled(products.length, 1);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
+        elevation: 0,
         title: Row(
           children: [
-            Text(
-              'Cart',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 30,
+            Text('Cart', style: AppTextStyles.heading2),
+            SizedBox(width: 8),
+            // Кружок с цифрой
+            Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: AppColors.productNumber, // фон кружка
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                '2',
+                style: AppTextStyles.productPrice.copyWith(
+                  fontSize: 14, // подгоняем размер под кружок
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
         ),
       ),
-      // Оборачиваем body в GestureDetector, чтобы ловить клики вне поля
-      body: GestureDetector(
-        onTap: () {
-          // Снимаем фокус с TextField, клавиатура закрывается
-          FocusScope.of(context).unfocus();
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
-          child: GridView.builder(
-            itemCount: products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 1,
-              mainAxisSpacing: 1,
-              childAspectRatio: 0.65,
-            ),
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+
+      body: ListView.builder(
+        padding: EdgeInsets.all(8),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final product = products[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.background,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  // Изображение с тенью
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: Offset(1, 2),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(product['image']!, fit: BoxFit.cover),
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        height: 180,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                              offset: Offset(1, 2),
+                  SizedBox(width: 12),
+                  // Информация о товаре
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          product['name']!,
+                          style: AppTextStyles.productName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          product['color_size']!,
+                          style: AppTextStyles.productColorSize,
+                        ),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Цена
+                            Text(
+                              product['price']!,
+                              style: AppTextStyles.productPrice,
+                            ),
+                            // Количество с кнопками
+                            Row(
+                              children: [
+                                // Кнопка минус
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (quantities[index] > 1)
+                                        quantities[index]--;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: AppColors
+                                          .background, // фон внутри круга
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color:
+                                            AppColors.primary, // цвет границы
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      Icons.remove,
+                                      color: AppColors.primary,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                // Количество
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.productNumber,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    quantities[index].toString(),
+                                    style: AppTextStyles.productPrice,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                // Кнопка плюс
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      quantities[index]++;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: AppColors
+                                          .background, // фон внутри круга
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color:
+                                            AppColors.primary, // цвет границы
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: AppColors.primary,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  product['image']!,
-                                  width: 155,
-                                ),
-                              ),
-                            ),
-
-                            Positioned(
-                              top: 8,
-                              left: 8,
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                  size: 28,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 8,
-                              left: 8,
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.shopping_bag_outlined,
-                                  color: Colors.white,
-                                  size: 28,
-                                ),
-                              ),
-                            ),
-                          ],
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Итоговая стоимость с кнопкой
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            width: double.infinity,
+            color: AppColors.greyLight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Total текст и цена с разной жирностью
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Total: ',
+                        style: AppTextStyles.productPrice.copyWith(
+                          fontSize: 24, // больше
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.black,
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6.0,
-                            vertical: 4.0,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product['name']!,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                product['price']!,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.start,
-                              ),
-                            ],
-                          ),
+                      TextSpan(
+                        text: '\$34,00',
+                        style: AppTextStyles.productPrice.copyWith(
+                          fontSize: 20, // чуть меньше
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.black,
                         ),
                       ),
                     ],
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2, // текущая вкладка — Cart
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ProductScreen()),
-            );
-          } else if (index == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => FavoritesScreen()),
-            );
-          } else if (index == 2) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => CartScreen()),
-            );
-          }
-        },
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black, // выбранная иконка чёрная
-        unselectedItemColor: Color.fromARGB(
-          255,
-          0,
-          76,
-          255,
-        ), // остальные иконки синие
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              child: Icon(Icons.shopping_bag_outlined),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.black, // подчёркивание только для выбранной
-                    width: 3,
+                // Кнопка Checkout
+                ElevatedButton(
+                  onPressed: () {
+                    // Тут можно добавить логику перехода
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  ),
+                  child: Text(
+                    'Checkout',
+                    style: AppTextStyles.button.copyWith(fontSize: 16),
                   ),
                 ),
-              ),
+              ],
             ),
-            label: '',
+          ),
+          // Сам BottomNavigationBar
+          BottomNavigationBar(
+            currentIndex: 2,
+            onTap: (index) {
+              if (index == 0) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => ProductScreen()),
+                );
+              } else if (index == 1) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => FavoritesScreen()),
+                );
+              } else if (index == 2) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => CartScreen()),
+                );
+              }
+            },
+            backgroundColor: AppColors.background,
+            selectedItemColor: AppColors.black,
+            unselectedItemColor: AppColors.primary,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border_outlined),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                  child: Icon(Icons.shopping_bag_outlined),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: AppColors.black, width: 3),
+                    ),
+                  ),
+                ),
+                label: '',
+              ),
+            ],
           ),
         ],
       ),
