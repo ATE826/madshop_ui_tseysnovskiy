@@ -44,8 +44,8 @@ class ShopApp extends StatelessWidget {
         '/register': (context) => RegisterScreen(),
         '/password': (context) => PasswordScreen(),
         '/product': (context) => ProductScreen(),
-        //'/cart': (context) => CartScreen(),
-        //'/favorites': (context) => FavoritesScreen(),
+        '/cart': (context) => CartScreen(),
+        '/favorites': (context) => FavoritesScreen(),
       },
     );
   }
