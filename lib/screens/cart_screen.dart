@@ -53,7 +53,8 @@ class _CartScreenState extends State<CartScreen> {
               ),
               alignment: Alignment.center,
               child: Text(
-                '2',
+                // Суммируем все значения из списка quantities
+                quantities.fold<int>(0, (sum, item) => sum + item).toString(),
                 style: AppTextStyles.productPrice.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -63,6 +64,7 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
+
       body: ListView.builder(
         padding: EdgeInsets.all(8),
         itemCount: products.length,
