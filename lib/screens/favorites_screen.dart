@@ -3,39 +3,40 @@ import 'product_screen.dart';
 import 'cart_screen.dart';
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
+import '../models/product.dart';
 
 class FavoritesScreen extends StatelessWidget {
-  final List<Map<String, String>> products = [
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/1.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/2.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/3.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/4.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/5.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/6.jpg',
-    },
+  final List<ProductCard> products = [
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/1.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/2.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/3.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/4.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/5.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/6.jpg',
+    ),
   ];
 
   @override
@@ -90,10 +91,7 @@ class FavoritesScreen extends StatelessWidget {
                             Center(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  product['image']!,
-                                  width: 155,
-                                ),
+                                child: Image.asset(product.image, width: 155),
                               ),
                             ),
                             Positioned(
@@ -122,14 +120,14 @@ class FavoritesScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                product['name']!,
+                                product.name,
                                 style: AppTextStyles.productName,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 4),
                               Text(
-                                product['price']!,
+                                product.price,
                                 style: AppTextStyles.productPrice,
                               ),
                             ],
@@ -170,10 +168,20 @@ class FavoritesScreen extends StatelessWidget {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
           BottomNavigationBarItem(
             icon: Container(
-              child: Icon(Icons.favorite_outline),
+              child: Icon(Icons.home_outlined),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.transparent, width: 3),
+                ),
+              ),
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              child: Icon(Icons.favorite),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: AppColors.black, width: 3),
@@ -183,7 +191,14 @@ class FavoritesScreen extends StatelessWidget {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
+            icon: Container(
+              child: Icon(Icons.shopping_bag_outlined),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.transparent, width: 3),
+                ),
+              ),
+            ),
             label: '',
           ),
         ],

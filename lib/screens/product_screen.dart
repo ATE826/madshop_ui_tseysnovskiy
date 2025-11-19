@@ -3,6 +3,7 @@ import 'favorites_screen.dart';
 import 'cart_screen.dart';
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
+import '../models/product.dart';
 
 class ProductScreen extends StatefulWidget {
   @override
@@ -10,43 +11,40 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  final List<Map<String, String>> products = [
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/1.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/2.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/3.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/4.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/5.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/6.jpg',
-    },
+  final List<ProductCard> products = [
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/1.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/2.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/3.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/4.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/5.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      price: '\$17,00',
+      image: 'assets/images/cards/6.jpg',
+    ),
   ];
 
-  // Избранное
   List<bool> favorites = [];
-
-  // Корзина (true — чёрная иконка)
   List<bool> inCart = [];
 
   @override
@@ -58,6 +56,10 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int cartCount = inCart
+        .where((item) => item)
+        .length; // количество товаров в корзине
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -84,6 +86,24 @@ class _ProductScreenState extends State<ProductScreen> {
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 8),
                   ),
+                ),
+              ),
+            ),
+            SizedBox(width: 8),
+            // Индикатор корзины
+            Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: AppColors.productNumber,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                cartCount.toString(),
+                style: AppTextStyles.productPrice.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -133,14 +153,9 @@ class _ProductScreenState extends State<ProductScreen> {
                             Center(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  product['image']!,
-                                  width: 155,
-                                ),
+                                child: Image.asset(product.image, width: 155),
                               ),
                             ),
-
-                            // ❤️ Иконка избранного
                             Positioned(
                               top: 8,
                               left: 8,
@@ -162,8 +177,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ),
                               ),
                             ),
-
-                            // 🛍 Иконка корзины — теперь меняет цвет
                             Positioned(
                               bottom: 8,
                               left: 8,
@@ -199,14 +212,14 @@ class _ProductScreenState extends State<ProductScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                product['name']!,
+                                product.name,
                                 style: AppTextStyles.productName,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 4),
                               Text(
-                                product['price']!,
+                                product.price,
                                 style: AppTextStyles.productPrice,
                               ),
                             ],
@@ -221,8 +234,6 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
         ),
       ),
-
-      // навигация
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         onTap: (index) {

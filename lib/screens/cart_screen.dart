@@ -3,6 +3,7 @@ import 'product_screen.dart';
 import 'favorites_screen.dart';
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
+import '../models/product.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -10,19 +11,19 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final List<Map<String, String>> products = [
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'color_size': 'Pink, Size M',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/7.jpg',
-    },
-    {
-      'name': 'Lorem ipsum dolor sit amet consectetur',
-      'color_size': 'Pink, Size M',
-      'price': '\$17,00',
-      'image': 'assets/images/cards/8.jpg',
-    },
+  final List<ProductCard> products = [
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      colorSize: 'Pink, Size M',
+      price: '\$17,00',
+      image: 'assets/images/cards/7.jpg',
+    ),
+    ProductCard(
+      name: 'Lorem ipsum dolor sit amet consectetur',
+      colorSize: 'Pink, Size M',
+      price: '\$17,00',
+      image: 'assets/images/cards/8.jpg',
+    ),
   ];
 
   List<int> quantities = [];
@@ -35,6 +36,8 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int totalItems = quantities.fold<int>(0, (sum, item) => sum + item);
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -53,8 +56,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
               alignment: Alignment.center,
               child: Text(
-                // Суммируем все значения из списка quantities
-                quantities.fold<int>(0, (sum, item) => sum + item).toString(),
+                totalItems.toString(),
                 style: AppTextStyles.productPrice.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -64,7 +66,6 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-
       body: ListView.builder(
         padding: EdgeInsets.all(8),
         itemCount: products.length,
@@ -79,23 +80,20 @@ class _CartScreenState extends State<CartScreen> {
               ),
               child: Row(
                 children: [
-                  // Stack для изображения + значок корзины
                   Container(
                     height: 100,
                     width: 100,
                     child: Stack(
                       children: [
-                        // Картинка с закруглением
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.asset(
-                            product['image']!,
+                            product.image,
                             width: 100,
                             height: 100,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        // Красный значок корзины в белом кружке
                         Positioned(
                           bottom: 6,
                           left: 6,
@@ -129,14 +127,14 @@ class _CartScreenState extends State<CartScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          product['name']!,
+                          product.name,
                           style: AppTextStyles.productName,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 4),
                         Text(
-                          product['color_size']!,
+                          product.colorSize ?? '',
                           style: AppTextStyles.productColorSize,
                         ),
                         SizedBox(height: 8),
@@ -144,7 +142,7 @@ class _CartScreenState extends State<CartScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              product['price']!,
+                              product.price,
                               style: AppTextStyles.productPrice,
                             ),
                             Row(
