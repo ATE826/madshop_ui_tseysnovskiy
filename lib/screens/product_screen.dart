@@ -43,16 +43,17 @@ class _ProductScreenState extends State<ProductScreen> {
     },
   ];
 
-  // Список, чтобы хранить состояние сердечка (true = красное, false = белое)
+  // Избранное
   List<bool> favorites = [];
+
+  // Корзина (true — чёрная иконка)
+  List<bool> inCart = [];
 
   @override
   void initState() {
     super.initState();
-    favorites = List.filled(
-      products.length,
-      false,
-    ); // изначально все не в избранном
+    favorites = List.filled(products.length, false);
+    inCart = List.filled(products.length, false);
   }
 
   @override
@@ -138,6 +139,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ),
                               ),
                             ),
+
+                            // ❤️ Иконка избранного
                             Positioned(
                               top: 8,
                               left: 8,
@@ -159,15 +162,26 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ),
                               ),
                             ),
+
+                            // 🛍 Иконка корзины — теперь меняет цвет
                             Positioned(
                               bottom: 8,
                               left: 8,
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.shopping_bag_outlined,
-                                  color: AppColors.background,
-                                  size: 28,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    inCart[index] = !inCart[index];
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(4),
+                                  child: Icon(
+                                    Icons.shopping_bag_outlined,
+                                    color: inCart[index]
+                                        ? AppColors.black
+                                        : AppColors.background,
+                                    size: 28,
+                                  ),
                                 ),
                               ),
                             ),
@@ -207,6 +221,8 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
         ),
       ),
+
+      // навигация
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         onTap: (index) {

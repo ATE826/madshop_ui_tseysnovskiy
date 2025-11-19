@@ -44,19 +44,18 @@ class _CartScreenState extends State<CartScreen> {
           children: [
             Text('Cart', style: AppTextStyles.heading2),
             SizedBox(width: 8),
-            // Кружок с цифрой
             Container(
               width: 28,
               height: 28,
               decoration: BoxDecoration(
-                color: AppColors.productNumber, // фон кружка
+                color: AppColors.productNumber,
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
               child: Text(
                 '2',
                 style: AppTextStyles.productPrice.copyWith(
-                  fontSize: 14, // подгоняем размер под кружок
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -64,7 +63,6 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-
       body: ListView.builder(
         padding: EdgeInsets.all(8),
         itemCount: products.length,
@@ -79,28 +77,50 @@ class _CartScreenState extends State<CartScreen> {
               ),
               child: Row(
                 children: [
-                  // Изображение с тенью
+                  // Stack для изображения + значок корзины
                   Container(
                     height: 100,
                     width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 2,
-                          offset: Offset(1, 2),
+                    child: Stack(
+                      children: [
+                        // Картинка с закруглением
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            product['image']!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        // Красный значок корзины в белом кружке
+                        Positioned(
+                          bottom: 6,
+                          left: 6,
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 3,
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                              size: 16,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(product['image']!, fit: BoxFit.cover),
-                    ),
                   ),
                   SizedBox(width: 12),
-                  // Информация о товаре
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,15 +141,12 @@ class _CartScreenState extends State<CartScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Цена
                             Text(
                               product['price']!,
                               style: AppTextStyles.productPrice,
                             ),
-                            // Количество с кнопками
                             Row(
                               children: [
-                                // Кнопка минус
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -141,12 +158,10 @@ class _CartScreenState extends State<CartScreen> {
                                     width: 32,
                                     height: 32,
                                     decoration: BoxDecoration(
-                                      color: AppColors
-                                          .background, // фон внутри круга
+                                      color: AppColors.background,
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color:
-                                            AppColors.primary, // цвет границы
+                                        color: AppColors.primary,
                                         width: 2,
                                       ),
                                     ),
@@ -158,7 +173,6 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ),
                                 SizedBox(width: 8),
-                                // Количество
                                 Container(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 12,
@@ -174,7 +188,6 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ),
                                 SizedBox(width: 8),
-                                // Кнопка плюс
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -185,12 +198,10 @@ class _CartScreenState extends State<CartScreen> {
                                     width: 32,
                                     height: 32,
                                     decoration: BoxDecoration(
-                                      color: AppColors
-                                          .background, // фон внутри круга
+                                      color: AppColors.background,
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color:
-                                            AppColors.primary, // цвет границы
+                                        color: AppColors.primary,
                                         width: 2,
                                       ),
                                     ),
@@ -217,7 +228,6 @@ class _CartScreenState extends State<CartScreen> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Итоговая стоимость с кнопкой
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             width: double.infinity,
@@ -225,14 +235,13 @@ class _CartScreenState extends State<CartScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Total текст и цена с разной жирностью
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
                         text: 'Total: ',
                         style: AppTextStyles.productPrice.copyWith(
-                          fontSize: 24, // больше
+                          fontSize: 24,
                           fontWeight: FontWeight.w900,
                           color: AppColors.black,
                         ),
@@ -240,7 +249,7 @@ class _CartScreenState extends State<CartScreen> {
                       TextSpan(
                         text: '\$34,00',
                         style: AppTextStyles.productPrice.copyWith(
-                          fontSize: 20, // чуть меньше
+                          fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: AppColors.black,
                         ),
@@ -248,11 +257,8 @@ class _CartScreenState extends State<CartScreen> {
                     ],
                   ),
                 ),
-                // Кнопка Checkout
                 ElevatedButton(
-                  onPressed: () {
-                    // Тут можно добавить логику перехода
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     shape: RoundedRectangleBorder(
@@ -268,24 +274,23 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           ),
-          // Сам BottomNavigationBar
           BottomNavigationBar(
             currentIndex: 2,
             onTap: (index) {
               if (index == 0) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => ProductScreen()),
+                  MaterialPageRoute(builder: (context) => ProductScreen()),
                 );
               } else if (index == 1) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => FavoritesScreen()),
+                  MaterialPageRoute(builder: (context) => FavoritesScreen()),
                 );
               } else if (index == 2) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => CartScreen()),
+                  MaterialPageRoute(builder: (context) => CartScreen()),
                 );
               }
             },

@@ -150,17 +150,17 @@ class FavoritesScreen extends StatelessWidget {
           if (index == 0) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => ProductScreen()),
+              MaterialPageRoute(builder: (context) => ProductScreen()),
             );
           } else if (index == 1) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => FavoritesScreen()),
+              MaterialPageRoute(builder: (context) => FavoritesScreen()),
             );
           } else if (index == 2) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => CartScreen()),
+              MaterialPageRoute(builder: (context) => CartScreen()),
             );
           }
         },
